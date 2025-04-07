@@ -1,5 +1,5 @@
 # Приложение с экраном входа
-![Снимок экрана 2025-04-07 в 17 38 05](https://github.com/user-attachments/assets/aa43cd8f-2b12-4dd6-a01f-97bc5e7b8a4a)
+![Снимок экрана 2025-04-07 в 17 38 05](https://github.com/user-attachments/assets/aa43cd8f-2b12-4dd6-a01f-97bc5e7b8a4a =250x250)
 
 Это простое приложение с экраном входа, разработанное с использованием UIKit на языке Swift. Приложение позволяет пользователю ввести имя пользователя и пароль, а также сохранить имя пользователя для следующего входа. Логика входа и пользовательские настройки сохраняются с использованием `UserDefaults`.
 
@@ -22,9 +22,9 @@
 
 ## Установка
 Для того чтобы установить проект, клонируйте репозиторий и откройте проект в Xcode:
-git clone https://github.com/sulhidee/loginScreen.git
-cd loginScreen
-open loginScreen.xcodeproj
+1. git clone https://github.com/sulhidee/loginScreen.git
+2. cd loginScreen
+3. open loginScreen.xcodeproj
 
 
 
