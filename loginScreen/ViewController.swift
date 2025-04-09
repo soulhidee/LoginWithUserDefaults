@@ -1,16 +1,9 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    
-    // MARK: - Keys
-    enum Keys: String {
-        case username
-        case password
-        case saveUsernameSwitchState
-    }
-    
+
     // MARK: - Properties
-    private let storage: UserDefaults = .standard
+    private var credentialsManager = UserCredentialsManager(storage: .standard)
     
     // MARK: - Outlets
     @IBOutlet var saveUsernameSwitch: UISwitch!
@@ -26,16 +19,9 @@ final class ViewController: UIViewController {
     
     // MARK: - Private Methods
     private func loadSavedCredentials() {
-        if let savedUsername = storage.string(forKey: Keys.username.rawValue) {
-            usernameTextField.text = savedUsername
-        }
-        
-        if let savedPassword = storage.string(forKey: Keys.password.rawValue) {
-            passwordTextField.text = savedPassword
-        }
-        
-        let isSwitchOn = storage.bool(forKey: Keys.saveUsernameSwitchState.rawValue)
-        saveUsernameSwitch.isOn = isSwitchOn
+        saveUsernameSwitch.isOn = credentialsManager.isSwitchOn
+        usernameTextField.text = credentialsManager.username
+        passwordTextField.text = credentialsManager.password
     }
     
     private func showAlert(title: String, message: String) {
@@ -49,20 +35,20 @@ final class ViewController: UIViewController {
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
-        if username.isEmpty || password.isEmpty {
+        guard !username.isEmpty, !password.isEmpty else {
             showAlert(title: "Missing Information", message: "Please enter both username and password.")
             return
         }
         
         if saveUsernameSwitch.isOn {
-            storage.set(username, forKey: Keys.username.rawValue)
-            storage.set(password, forKey: Keys.password.rawValue)
+            credentialsManager.username = username
+            credentialsManager.password = password
         } else {
-            storage.removeObject(forKey: Keys.username.rawValue)
-            storage.removeObject(forKey: Keys.password.rawValue)
+            credentialsManager.username = nil
+            credentialsManager.password = nil
         }
         
-        storage.set(saveUsernameSwitch.isOn, forKey: Keys.saveUsernameSwitchState.rawValue)
+        credentialsManager.isSwitchOn = saveUsernameSwitch.isOn
         
         showAlert(title: "Success", message: "Login successful!")
     }
