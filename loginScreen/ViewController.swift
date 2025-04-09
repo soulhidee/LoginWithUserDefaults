@@ -1,34 +1,40 @@
 import UIKit
 
-class ViewController: UIViewController {
-
+final class ViewController: UIViewController {
+    
+    // MARK: - Keys
+    enum Keys: String {
+        case username
+        case password
+        case saveUsernameSwitchState
+    }
+    
+    // MARK: - Properties
+    private let storage: UserDefaults = .standard
+    
     // MARK: - Outlets
     @IBOutlet var saveUsernameSwitch: UISwitch!
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
-    // MARK: - Lifecycle Methods
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Setup password field to show secure text
         passwordTextField.isSecureTextEntry = true
-        
-        // Load saved username and password from UserDefaults
         loadSavedCredentials()
     }
-
-    // MARK: - Helper Methods
+    
+    // MARK: - Private Methods
     private func loadSavedCredentials() {
-        if let savedUsername = UserDefaults.standard.string(forKey: "username") {
+        if let savedUsername = storage.string(forKey: Keys.username.rawValue) {
             usernameTextField.text = savedUsername
         }
         
-        if let savedPassword = UserDefaults.standard.string(forKey: "password") {
+        if let savedPassword = storage.string(forKey: Keys.password.rawValue) {
             passwordTextField.text = savedPassword
         }
         
-        let isSwitchOn = UserDefaults.standard.bool(forKey: "saveUsernameSwitchState")
+        let isSwitchOn = storage.bool(forKey: Keys.saveUsernameSwitchState.rawValue)
         saveUsernameSwitch.isOn = isSwitchOn
     }
     
@@ -37,24 +43,22 @@ class ViewController: UIViewController {
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
-        // Validate input fields
         if username.isEmpty || password.isEmpty {
             print("Please enter both username and password.")
             return
         }
         
-        // Save or remove username and password based on the switch state
         if saveUsernameSwitch.isOn {
-            UserDefaults.standard.set(username, forKey: "username")
-            UserDefaults.standard.set(password, forKey: "password")
+            storage.set(username, forKey: Keys.username.rawValue)
+            storage.set(password, forKey: Keys.password.rawValue)
         } else {
-            UserDefaults.standard.removeObject(forKey: "username")
-            UserDefaults.standard.removeObject(forKey: "password")
+            storage.removeObject(forKey: Keys.username.rawValue)
+            storage.removeObject(forKey: Keys.password.rawValue)
         }
         
-        // Save the state of the switch for future app launches
-        UserDefaults.standard.set(saveUsernameSwitch.isOn, forKey: "saveUsernameSwitchState")
-
+        storage.set(saveUsernameSwitch.isOn, forKey: Keys.saveUsernameSwitchState.rawValue)
+        
         print("Login successful")
     }
 }
+
