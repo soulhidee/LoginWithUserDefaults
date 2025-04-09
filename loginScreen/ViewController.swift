@@ -1,9 +1,10 @@
 import UIKit
 
-final class ViewController: UIViewController {
-
+final class ViewController: UIViewController{
+    
     // MARK: - Properties
     private var credentialsManager = UserCredentialsManager(storage: .standard)
+    private let credentialsValidator = CredentialsValidator(minLength: 6, maxLength: 20)
     
     // MARK: - Outlets
     @IBOutlet var saveUsernameSwitch: UISwitch!
@@ -37,6 +38,11 @@ final class ViewController: UIViewController {
         
         guard !username.isEmpty, !password.isEmpty else {
             showAlert(title: "Missing Information", message: "Please enter both username and password.")
+            return
+        }
+        
+        if let errorMessage = credentialsValidator.validate(username: username, password: password) {
+            showAlert(title: "Invalid Input", message: errorMessage)
             return
         }
         
