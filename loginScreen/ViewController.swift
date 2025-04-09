@@ -38,13 +38,19 @@ final class ViewController: UIViewController {
         saveUsernameSwitch.isOn = isSwitchOn
     }
     
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
     // MARK: - Actions
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         let username = usernameTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
         if username.isEmpty || password.isEmpty {
-            print("Please enter both username and password.")
+            showAlert(title: "Missing Information", message: "Please enter both username and password.")
             return
         }
         
@@ -58,7 +64,7 @@ final class ViewController: UIViewController {
         
         storage.set(saveUsernameSwitch.isOn, forKey: Keys.saveUsernameSwitchState.rawValue)
         
-        print("Login successful")
+        showAlert(title: "Success", message: "Login successful!")
     }
 }
 
