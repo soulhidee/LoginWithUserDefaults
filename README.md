@@ -30,9 +30,9 @@
 
 ## Установка
 Для того чтобы установить проект, клонируйте репозиторий и откройте проект в Xcode:
-	1.	git clone https://github.com/sulhidee/loginScreen.git
-	2.	cd loginScreen
-	3.	open loginScreen.xcodeproj
+1.	git clone https://github.com/sulhidee/loginScreen.git
+2.	cd loginScreen
+3.	open loginScreen.xcodeproj
 
 
 
